@@ -1,56 +1,34 @@
-/* src/index.css */
-
-
-/* These are the core Tailwind CSS directives. */
-
-
-/* They are replaced by Tailwind's generated styles during the build process. */
+/* frontend/src/index.css */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom global styles for the application */
+/* Your custom global CSS can go below these directives */
 
 body {
     font-family: "Inter", sans-serif;
-    /* Using Inter font as suggested */
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #f3f4f6;
-    /* A light gray background for the entire app */
+    background-color: #f0f2f5;
 }
-
-
-/* Ensure the root div (#root in index.html) takes full height and centers its content */
 
 #root {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    /* Ensure the root container takes full viewport height */
 }
-
-
-/* Custom styles for better centering and content display within main */
 
 main {
     flex-grow: 1;
-    /* Allows main to take up available vertical space */
     display: flex;
     justify-content: center;
-    /* Center content horizontally */
     align-items: flex-start;
-    /* Align content to the top vertically */
-    padding: 1rem;
-    /* Add some padding around the main content area */
+    padding: 1.5rem;
     width: 100%;
-    /* Ensure main takes full width */
+    box-sizing: border-box;
 }
-
-
-/* Basic fade-in animation for message box */
 
 @keyframes fadeInDown {
     from {

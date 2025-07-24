@@ -3,6 +3,15 @@ import React, { useState, useEffect, createContext, useContext } from 'react';
 import axios from 'axios';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
+// Import reusable UI components
+// Assuming these components are in frontend/src/components/
+// You would uncomment and use them if you create those files
+// import Header from './components/Header'; // If you create a separate Header.jsx
+// import Card from './components/Card';     // If you create a separate Card.jsx
+// import InputField from './components/InputField'; // If you create a separate InputField.jsx
+import SubmitButton from './components/SubmitButton'; // This is the component we are integrating now
+
+
 // Create an Auth Context to manage user authentication state globally
 const AuthContext = createContext(null);
 
@@ -114,29 +123,53 @@ const AuthProvider = ({ children }) => {
 
 // --- Components ---
 
-// Header Component
+// Header Component: This is the top horizontal navigation section
 const Header = () => {
     const { isAuthenticated, logout } = useAuth();
     return (
-        <header className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 shadow-lg rounded-b-xl">
-            <nav className="container mx-auto flex justify-between items-center">
-                <h1 className="text-3xl font-bold font-inter">
-                    <a href="/" className="hover:text-blue-200 transition-colors">
+        <header className="bg-gradient-to-r from-blue-700 to-purple-700 text-white p-4 shadow-xl rounded-b-2xl">
+            <nav className="container mx-auto flex flex-col md:flex-row justify-between items-center space-y-3 md:space-y-0">
+                <h1 className="text-4xl font-extrabold font-inter tracking-wide">
+                    <a href="/" className="hover:text-blue-300 transition-colors duration-300">
                         FinanceFlow
                     </a>
                 </h1>
-                <ul className="flex space-x-6">
+                <ul className="flex flex-wrap justify-center md:justify-end space-x-4 md:space-x-6">
                     {isAuthenticated ? (
                         <>
-                            <li><a href="/dashboard" className="hover:text-blue-200 transition-colors text-lg">Dashboard</a></li>
-                            <li><a href="/transactions" className="hover:text-blue-200 transition-colors text-lg">Transactions</a></li>
-                            <li><a href="/categories" className="hover:text-blue-200 transition-colors text-lg">Categories</a></li>
-                            <li><button onClick={logout} className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow-md transition-all text-lg">Logout</button></li>
+                            <li>
+                                <a href="/dashboard" className="inline-block bg-blue-600 hover:bg-blue-800 text-white font-semibold py-2 px-5 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 text-lg">
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/transactions" className="inline-block bg-purple-600 hover:bg-purple-800 text-white font-semibold py-2 px-5 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 text-lg">
+                                    Transactions
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/categories" className="inline-block bg-green-600 hover:bg-green-800 text-white font-semibold py-2 px-5 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 text-lg">
+                                    Categories
+                                </a>
+                            </li>
+                            <li>
+                                <SubmitButton type="button" onClick={logout} bgColor="bg-red-600" hoverBgColor="hover:bg-red-800" className="w-auto">
+                                    Logout
+                                </SubmitButton>
+                            </li>
                         </>
                     ) : (
                         <>
-                            <li><a href="/login" className="hover:text-blue-200 transition-colors text-lg">Login</a></li>
-                            <li><a href="/register" className="hover:text-blue-200 transition-colors text-lg">Register</a></li>
+                            <li>
+                                <a href="/login" className="inline-block bg-blue-600 hover:bg-blue-800 text-white font-semibold py-2 px-5 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 text-lg">
+                                    Login
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/register" className="inline-block bg-green-600 hover:bg-green-800 text-white font-semibold py-2 px-5 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 text-lg">
+                                    Register
+                                </a>
+                            </li>
                         </>
                     )}
                 </ul>
@@ -191,16 +224,16 @@ const LoginPage = ({ onLoginSuccess }) => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-            <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md border border-gray-200"> {/* Added border and shadow for form */}
-                <h2 className="text-4xl font-bold text-center text-gray-800 mb-8">Login</h2>
+        <div className="min-h-screen flex items-center justify-center p-4">
+            <div className="bg-white p-8 rounded-2xl shadow-3xl border border-gray-200 w-full max-w-md transform transition-all duration-300 hover:scale-[1.01]">
+                <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-8">Login</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
                         <label className="block text-gray-700 text-lg font-medium mb-2" htmlFor="email">Email</label>
                         <input
                             type="email"
                             id="email"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200 shadow-sm"
                             placeholder="your@example.com"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -212,19 +245,16 @@ const LoginPage = ({ onLoginSuccess }) => {
                         <input
                             type="password"
                             id="password"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200 shadow-sm"
                             placeholder="********"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
                     </div>
-                    <button
-                        type="submit"
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 text-xl transform hover:scale-105"
-                    >
+                    <SubmitButton>
                         Log In
-                    </button>
+                    </SubmitButton>
                 </form>
                 <p className="mt-6 text-center text-gray-600 text-lg">
                     Don't have an account? <a href="/register" className="text-blue-600 hover:underline font-semibold">Register here</a>
@@ -261,16 +291,16 @@ const RegisterPage = ({ onRegisterSuccess }) => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-            <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md border border-gray-200"> {/* Added border and shadow for form */}
-                <h2 className="text-4xl font-bold text-center text-gray-800 mb-8">Register</h2>
+        <div className="min-h-screen flex items-center justify-center p-4">
+            <div className="bg-white p-8 rounded-2xl shadow-3xl border border-gray-200 w-full max-w-md transform transition-all duration-300 hover:scale-[1.01]">
+                <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-8">Register</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
                         <label className="block text-gray-700 text-lg font-medium mb-2" htmlFor="username">Username</label>
                         <input
                             type="text"
                             id="username"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200 shadow-sm"
                             placeholder="John Doe"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
@@ -282,7 +312,7 @@ const RegisterPage = ({ onRegisterSuccess }) => {
                         <input
                             type="email"
                             id="email"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200 shadow-sm"
                             placeholder="your@example.com"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -294,19 +324,16 @@ const RegisterPage = ({ onRegisterSuccess }) => {
                         <input
                             type="password"
                             id="password"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200 shadow-sm"
                             placeholder="********"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
                     </div>
-                    <button
-                        type="submit"
-                        className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 text-xl transform hover:scale-105"
-                    >
+                    <SubmitButton bgColor="bg-green-600" hoverBgColor="hover:bg-green-700">
                         Register
-                    </button>
+                    </SubmitButton>
                 </form>
                 <p className="mt-6 text-center text-gray-600 text-lg">
                     Already have an account? <a href="/login" className="text-green-600 hover:underline font-semibold">Login here</a>
@@ -360,20 +387,20 @@ const DashboardPage = () => {
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF', '#FF19A3', '#19FFD1'];
 
     return (
-        <div className="container mx-auto p-6 bg-gray-50 rounded-xl shadow-lg my-8">
-            <h2 className="text-4xl font-bold text-gray-800 mb-8 text-center">Dashboard</h2>
+        <div className="container mx-auto p-6 bg-white rounded-2xl shadow-xl my-8 border border-gray-200">
+            <h2 className="text-4xl font-extrabold text-gray-800 mb-8 text-center border-b-2 pb-4 border-gray-100">Dashboard Overview</h2>
 
             {summary && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                    <div className="bg-blue-100 p-6 rounded-xl shadow-md text-center border border-blue-200">
+                    <div className="bg-blue-50 p-6 rounded-xl shadow-md text-center border border-blue-200 transform transition-all duration-300 hover:scale-[1.02]">
                         <h3 className="text-2xl font-semibold text-blue-800 mb-2">Total Income</h3>
                         <p className="text-4xl font-bold text-blue-600">${(parseFloat(summary.totalIncome) || 0).toFixed(2)}</p>
                     </div>
-                    <div className="bg-red-100 p-6 rounded-xl shadow-md text-center border border-red-200">
+                    <div className="bg-red-50 p-6 rounded-xl shadow-md text-center border border-red-200 transform transition-all duration-300 hover:scale-[1.02]">
                         <h3 className="text-2xl font-semibold text-red-800 mb-2">Total Expenses</h3>
                         <p className="text-4xl font-bold text-red-600">${(parseFloat(summary.totalExpense) || 0).toFixed(2)}</p>
                     </div>
-                    <div className={`p-6 rounded-xl shadow-md text-center border ${parseFloat(summary.netBalance) >= 0 ? 'bg-green-100 border-green-200' : 'bg-orange-100 border-orange-200'}`}>
+                    <div className={`p-6 rounded-xl shadow-md text-center border transform transition-all duration-300 hover:scale-[1.02] ${parseFloat(summary.netBalance) >= 0 ? 'bg-green-50 border-green-200' : 'bg-orange-50 border-orange-200'}`}>
                         <h3 className="text-2xl font-semibold text-gray-800 mb-2">Net Balance</h3>
                         <p className={`text-4xl font-bold ${parseFloat(summary.netBalance) >= 0 ? 'text-green-600' : 'text-orange-600'}`}>
                             ${(parseFloat(summary.netBalance) || 0).toFixed(2)}
@@ -383,7 +410,7 @@ const DashboardPage = () => {
             )}
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                <div className="bg-gray-50 p-6 rounded-xl shadow-md border border-gray-200">
                     <h3 className="text-2xl font-semibold text-gray-800 mb-4 text-center">Monthly Income vs. Expense</h3>
                     <ResponsiveContainer width="100%" height={300}>
                         <LineChart data={monthlyTrends}>
@@ -398,7 +425,7 @@ const DashboardPage = () => {
                     </ResponsiveContainer>
                 </div>
 
-                <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                <div className="bg-gray-50 p-6 rounded-xl shadow-md border border-gray-200">
                     <h3 className="text-2xl font-semibold text-gray-800 mb-4 text-center">Spending by Category</h3>
                     <ResponsiveContainer width="100%" height={300}>
                         <PieChart>
@@ -516,10 +543,10 @@ const TransactionsPage = () => {
     };
 
     return (
-        <div className="container mx-auto p-6 bg-gray-50 rounded-xl shadow-lg my-8">
-            <h2 className="text-4xl font-bold text-gray-800 mb-8 text-center">{editingId ? 'Edit Transaction' : 'Add New Transaction'}</h2>
+        <div className="container mx-auto p-6 bg-white rounded-2xl shadow-xl my-8 border border-gray-200">
+            <h2 className="text-4xl font-extrabold text-gray-800 mb-8 text-center border-b-2 pb-4 border-gray-100">{editingId ? 'Edit Transaction' : 'Add New Transaction'}</h2>
 
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10 bg-white p-6 rounded-xl shadow-md border border-gray-200">
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10 bg-gray-50 p-6 rounded-xl shadow-md border border-gray-200 transform transition-all duration-300 hover:scale-[1.01]">
                 <div>
                     <label className="block text-gray-700 text-lg font-medium mb-2" htmlFor="amount">Amount</label>
                     <input
@@ -527,7 +554,7 @@ const TransactionsPage = () => {
                         id="amount"
                         name="amount"
                         step="0.01"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200 shadow-sm"
                         value={formData.amount}
                         onChange={handleChange}
                         required
@@ -538,7 +565,7 @@ const TransactionsPage = () => {
                     <select
                         id="type"
                         name="type"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200 shadow-sm"
                         value={formData.type}
                         onChange={handleChange}
                         required
@@ -553,7 +580,7 @@ const TransactionsPage = () => {
                         type="date"
                         id="transaction_date"
                         name="transaction_date"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200 shadow-sm"
                         value={formData.transaction_date}
                         onChange={handleChange}
                         required
@@ -564,7 +591,7 @@ const TransactionsPage = () => {
                     <select
                         id="category_id"
                         name="category_id"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200 shadow-sm"
                         value={formData.category_id}
                         onChange={handleChange}
                     >
@@ -580,55 +607,54 @@ const TransactionsPage = () => {
                         id="description"
                         name="description"
                         rows="3"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200 shadow-sm"
                         placeholder="Optional description..."
                         value={formData.description}
                         onChange={handleChange}
                     ></textarea>
                 </div>
                 <div className="md:col-span-2 lg:col-span-3 flex justify-end space-x-4">
-                    <button
-                        type="submit"
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 text-xl transform hover:scale-105"
-                    >
+                    <SubmitButton type="submit" className="flex-grow">
                         {editingId ? 'Update Transaction' : 'Add Transaction'}
-                    </button>
+                    </SubmitButton>
                     {editingId && (
-                        <button
+                        <SubmitButton
                             type="button"
                             onClick={() => {
                                 setEditingId(null);
                                 setFormData({ amount: '', type: 'expense', description: '', transaction_date: '', category_id: '' });
                             }}
-                            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 text-xl transform hover:scale-105"
+                            bgColor="bg-gray-500"
+                            hoverBgColor="hover:bg-gray-600"
+                            className="w-auto"
                         >
                             Cancel Edit
-                        </button>
+                        </SubmitButton>
                     )}
                 </div>
             </form>
 
-            <h3 className="text-3xl font-bold text-gray-800 mb-6 text-center">All Transactions</h3>
-            <div className="overflow-x-auto bg-white rounded-xl shadow-md border border-gray-200">
+            <h3 className="text-3xl font-extrabold text-gray-800 mb-6 text-center border-b-2 pb-4 border-gray-100">All Transactions</h3>
+            <div className="overflow-x-auto bg-gray-50 rounded-xl shadow-md border border-gray-200">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-100">
                         <tr>
-                            <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                            <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                            <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                            <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                            <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                            <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            <th className="px-6 py-3 text-left text-sm font-bold text-gray-600 uppercase tracking-wider">Date</th>
+                            <th className="px-6 py-3 text-left text-sm font-bold text-gray-600 uppercase tracking-wider">Description</th>
+                            <th className="px-6 py-3 text-left text-sm font-bold text-gray-600 uppercase tracking-wider">Category</th>
+                            <th className="px-6 py-3 text-left text-sm font-bold text-gray-600 uppercase tracking-wider">Type</th>
+                            <th className="px-6 py-3 text-left text-sm font-bold text-gray-600 uppercase tracking-wider">Amount</th>
+                            <th className="px-6 py-3 text-left text-sm font-bold text-gray-600 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                         {transactions.length === 0 ? (
                             <tr>
-                                <td colSpan="6" className="px-6 py-4 whitespace-nowrap text-center text-gray-500">No transactions recorded yet.</td>
+                                <td colSpan="6" className="px-6 py-4 whitespace-nowrap text-center text-gray-500 text-lg">No transactions recorded yet.</td>
                             </tr>
                         ) : (
                             transactions.map(t => (
-                                <tr key={t.id} className="hover:bg-gray-50">
+                                <tr key={t.id} className="hover:bg-blue-50 transition-colors duration-150">
                                     <td className="px-6 py-4 whitespace-nowrap text-lg text-gray-900">{new Date(t.transaction_date).toLocaleDateString()}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-lg text-gray-900">{t.description || '-'}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-lg text-gray-900">{t.category_name || 'Uncategorized'}</td>
@@ -636,18 +662,18 @@ const TransactionsPage = () => {
                                         {t.type.charAt(0).toUpperCase() + t.type.slice(1)}
                                     </td>
                                     <td className={`px-6 py-4 whitespace-nowrap text-lg font-bold ${t.type === 'income' ? 'text-green-600' : 'text-red-600'}`}>
-                                        ${(parseFloat(t.amount) || 0).toFixed(2)} {/* Applied parseFloat fix here */}
+                                        ${(parseFloat(t.amount) || 0).toFixed(2)}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-right text-lg font-medium">
                                         <button
                                             onClick={() => handleEdit(t)}
-                                            className="text-indigo-600 hover:text-indigo-900 mr-4 transition-colors"
+                                            className="text-indigo-600 hover:text-indigo-900 mr-4 transition-colors text-lg font-medium"
                                         >
                                             Edit
                                         </button>
                                         <button
                                             onClick={() => handleDelete(t.id)}
-                                            className="text-red-600 hover:text-red-900 transition-colors"
+                                            className="text-red-600 hover:text-red-900 transition-colors text-lg font-medium"
                                         >
                                             Delete
                                         </button>
@@ -738,17 +764,17 @@ const CategoriesPage = () => {
     };
 
     return (
-        <div className="container mx-auto p-6 bg-gray-50 rounded-xl shadow-lg my-8">
-            <h2 className="text-4xl font-bold text-gray-800 mb-8 text-center">{editingId ? 'Edit Category' : 'Add New Category'}</h2>
+        <div className="container mx-auto p-6 bg-white rounded-2xl shadow-xl my-8 border border-gray-200">
+            <h2 className="text-4xl font-extrabold text-gray-800 mb-8 text-center border-b-2 pb-4 border-gray-100">{editingId ? 'Edit Category' : 'Add New Category'}</h2>
 
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 bg-white p-6 rounded-xl shadow-md border border-gray-200">
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 bg-gray-50 p-6 rounded-xl shadow-md border border-gray-200 transform transition-all duration-300 hover:scale-[1.01]">
                 <div>
                     <label className="block text-gray-700 text-lg font-medium mb-2" htmlFor="name">Category Name</label>
                     <input
                         type="text"
                         id="name"
                         name="name"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200 shadow-sm"
                         value={formData.name}
                         onChange={handleChange}
                         required
@@ -759,7 +785,7 @@ const CategoriesPage = () => {
                     <select
                         id="type"
                         name="type"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200 shadow-sm"
                         value={formData.type}
                         onChange={handleChange}
                         required
@@ -769,45 +795,44 @@ const CategoriesPage = () => {
                     </select>
                 </div>
                 <div className="flex items-end space-x-4">
-                    <button
-                        type="submit"
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 text-xl transform hover:scale-105 flex-grow"
-                    >
+                    <SubmitButton type="submit" className="flex-grow">
                         {editingId ? 'Update Category' : 'Add Category'}
-                    </button>
+                    </SubmitButton>
                     {editingId && (
-                        <button
+                        <SubmitButton
                             type="button"
                             onClick={() => {
                                 setEditingId(null);
                                 setFormData({ name: '', type: 'expense' });
                             }}
-                            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 text-xl transform hover:scale-105"
+                            bgColor="bg-gray-500"
+                            hoverBgColor="hover:bg-gray-600"
+                            className="w-auto"
                         >
                             Cancel
-                        </button>
+                        </SubmitButton>
                     )}
                 </div>
             </form>
 
-            <h3 className="text-3xl font-bold text-gray-800 mb-6 text-center">Your Categories</h3>
-            <div className="overflow-x-auto bg-white rounded-xl shadow-md border border-gray-200">
+            <h3 className="text-3xl font-extrabold text-gray-800 mb-6 text-center border-b-2 pb-4 border-gray-100">Your Categories</h3>
+            <div className="overflow-x-auto bg-gray-50 rounded-xl shadow-md border border-gray-200">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-100">
                         <tr>
-                            <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                            <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                            <th className="px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            <th className="px-6 py-3 text-left text-sm font-bold text-gray-600 uppercase tracking-wider">Name</th>
+                            <th className="px-6 py-3 text-left text-sm font-bold text-gray-600 uppercase tracking-wider">Type</th>
+                            <th className="px-6 py-3 text-left text-sm font-bold text-gray-600 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                         {categories.length === 0 ? (
                             <tr>
-                                <td colSpan="3" className="px-6 py-4 whitespace-nowrap text-center text-gray-500">No categories defined yet.</td>
+                                <td colSpan="3" className="px-6 py-4 whitespace-nowrap text-center text-gray-500 text-lg">No categories defined yet.</td>
                             </tr>
                         ) : (
                             categories.map(cat => (
-                                <tr key={cat.id} className="hover:bg-gray-50">
+                                <tr key={cat.id} className="hover:bg-blue-50 transition-colors duration-150">
                                     <td className="px-6 py-4 whitespace-nowrap text-lg text-gray-900">{cat.name}</td>
                                     <td className={`px-6 py-4 whitespace-nowrap text-lg font-semibold ${cat.type === 'income' ? 'text-green-600' : 'text-red-600'}`}>
                                         {cat.type.charAt(0).toUpperCase() + cat.type.slice(1)}
@@ -815,13 +840,13 @@ const CategoriesPage = () => {
                                     <td className="px-6 py-4 whitespace-nowrap text-right text-lg font-medium">
                                         <button
                                             onClick={() => handleEdit(cat)}
-                                            className="text-indigo-600 hover:text-indigo-900 mr-4 transition-colors"
+                                            className="text-indigo-600 hover:text-indigo-900 mr-4 transition-colors text-lg font-medium"
                                         >
                                             Edit
                                         </button>
                                         <button
                                             onClick={() => handleDelete(cat.id)}
-                                            className="text-red-600 hover:text-red-900 transition-colors"
+                                            className="text-red-600 hover:text-red-900 transition-colors text-lg font-medium"
                                         >
                                             Delete
                                         </button>
@@ -888,9 +913,13 @@ const App = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 font-inter">
+        // The outermost div now only applies font. Background and min-height are in index.css on #root and body.
+        <div className="font-inter">
+            {/* Header Section: Always visible at the top */}
             <Header />
-            <main className="flex-grow flex justify-center items-start"> {/* Added flex properties for centering */}
+            {/* Content Section: This is where the active page (Dashboard, Transactions, Categories) will be rendered. */}
+            {/* Styling for centering and taking available space is handled by the 'main' rule in index.css */}
+            <main>
                 {renderContent()}
             </main>
         </div>

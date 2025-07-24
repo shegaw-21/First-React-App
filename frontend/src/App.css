@@ -1,29 +1,72 @@
-    /* src/index.css */
-    
-    @tailwind base;
-    @tailwind components;
-    @tailwind utilities;
-    /* You can add your own custom CSS below these directives if needed. */
-    
-    body {
-        font-family: "Inter", sans-serif;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+/* src/index.css */
+
+
+/* These are the core Tailwind CSS directives. */
+
+
+/* They are replaced by Tailwind's generated styles during the build process. */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom global styles for the application */
+
+body {
+    font-family: "Inter", sans-serif;
+    /* Using Inter font as suggested */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f0f2f5;
+    /* A slightly darker light gray background for the entire page */
+}
+
+
+/* Ensure the root div (#root in index.html) takes full height and manages child layout */
+
+#root {
+    display: flex;
+    flex-direction: column;
+    /* Stacks children (Header and main) vertically */
+    min-height: 100vh;
+    /* Ensures the app container takes at least the full viewport height */
+}
+
+
+/* Styles for the main content section */
+
+main {
+    flex-grow: 1;
+    /* Allows the main content area to expand and fill available vertical space */
+    display: flex;
+    /* Enables flexbox for centering its children (the page components) */
+    justify-content: center;
+    /* Centers content horizontally within the main area */
+    align-items: flex-start;
+    /* Aligns content to the top vertically within the main area */
+    padding: 1.5rem;
+    /* Add generous padding around the main content */
+    width: 100%;
+    /* Ensures main takes full width */
+    box-sizing: border-box;
+    /* Include padding in the element's total width and height */
+}
+
+
+/* Basic fade-in animation for message box */
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
     }
-    /* Basic fade-in animation for message box */
-    
-    @keyframes fadeInDown {
-        from {
-            opacity: 0;
-            transform: translateY(-20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
-    
-    .animate-fade-in-down {
-        animation: fadeInDown 0.5s ease-out forwards;
-    }
+}
+
+.animate-fade-in-down {
+    animation: fadeInDown 0.5s ease-out forwards;
+}
